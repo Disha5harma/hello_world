@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nxgz_p_4j6(@pwvl!81ob+d_gd!k2r1*0vb-ydu80e(u@1qc$+'
+SECRET_KEY = 'SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'hello_world.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'hello_world',
+        'USER': 'hello_world',
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("172.30.200.191"),
+        'PORT': '5432',
     }
 }
 
@@ -113,7 +117,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+REST_FRAMEWORK = {       
+    'DEFAULT_RENDERER_CLASSES': (       
+        'rest_framework.renderers.JSONRenderer',       
+    )       
+}
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
